@@ -1,10 +1,12 @@
 const canvas = document.querySelector('#draw');
 const ctx = canvas.getContext('2d');
+const colorPicker = document.getElementById('color');
+const sizePicker = document.getElementById('size');
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-ctx.strokeStyle = '#BADA55';
+ctx.strokeStyle = '#ffc600';
 ctx.lineJoin = 'round';
 ctx.lineCap = 'round';
 ctx.lineWidth = 1;
@@ -13,30 +15,18 @@ ctx.globalCompositeOperation = 'source over';
 let isDrawing = false;
 let lastX = 0;
 let lastY = 0;
-let hue = 1;
-let direction = true;
 
 
 function draw(e){
     [lastX, lastY] = [e.offsetX, e.offsetY];
     if(!isDrawing) return;
-    ctx.strokeStyle = `hsl(${hue},100%,50%)`;
+    console.log(colorPicker.value);
+    ctx.strokeStyle = colorPicker.value ;
+    ctx.lineWidth = sizePicker.value;
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
     ctx.lineTo(e.offsetX, e.offsetY);
     ctx.stroke();
-    hue++;
-    if(hue >= 360){
-        hue = 0;
-    }
-    if(ctx.lineWidth >=100 || ctx.lineWidth <=1){
-        direction = !direction;
-    }
-    if(direction){
-        ctx.lineWidth++;
-    }else{
-        ctx.lineWidth--;
-    }
 }
 
 canvas.addEventListener('mousemove',draw);
